@@ -1,6 +1,8 @@
 # Interpretacija programa
 https://web.math.pmf.unizg.hr/nastava/ip/
 
+**zadaca01.py**
+
 ### 1.9 i 1.10
 
 **Konkatenacija** nedeterminističkog automata N1 (prihvaća riječi čija je duljina najviše 5) i N2 (svaka neparna pozicija u riječi je znak '1'). Najprije zadamo automate kao konačne,  metodom *.iz_konačnog_automata()* konstruiramo ekvivalentni nedeterministički k. automat. Sada konkatenaciju N1 i N2 dobijemo metodom *N1.konkatenacija(N2)*, koja vraća novi automat koji ima ε-prijelaze sa završnih stanja (koja više nisu završna) automata N1 na početno stanje od N2, a završno stanje novog automata su završna stanja automata N2.
