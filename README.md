@@ -27,7 +27,7 @@ Ako posjetimo susjeda koji je *sivi* tada smo dobili ciklus. Inače, ako takav s
 Nakon što smo posjetili sve susjede trenutnog stanja, označimo ga *crnim*.
 
 
-### 3. Funkciju *beskonačna_petlja*, koja prima nedeterministički konačni automat i vraća (neku) riječ njegove abecede takvu da se automat može zavrtjeti u beskonačnoj petlji čitajući tu riječ. Ako takva riječ ne postoji, funkcija vraća None.
+### 3. Funkcija *beskonačna_petlja*, koja prima nedeterministički konačni automat i vraća (neku) riječ njegove abecede takvu da se automat može zavrtjeti u beskonačnoj petlji čitajući tu riječ. Ako takva riječ ne postoji, funkcija vraća None.
 **beskonačna petlja: automat nije u završnom stanju (prihvaćanja), nije ni u ne završnom stanju(odbijanja),već u petlji jer izračunavanje nikada ne staje**
 
 Metoda *random_string(duljina)* nasumično generira riječ duljine koju prima kao parametar (koji smo također nasumično odabrali metodom *randomint()* kao neki proizvoljan broj od 1 do duljinaRiječi) 
