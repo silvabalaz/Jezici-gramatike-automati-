@@ -262,7 +262,6 @@ class NedeterminističkiKonačniAutomat(types.SimpleNamespace):
 		"""beskonačna_petlja ako je unos neka riječ abecede automata"""
 		Q, Σ, δ, q0, F = automat.komponente	
 
-		print("automat:",Q, Σ, δ, q0, F  )
 		duljinaRiječi = len(list(Σ))*10
 
 		def random_string(duljina):

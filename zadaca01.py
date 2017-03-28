@@ -22,10 +22,7 @@ for riječ in '0', '10', '101000':
 
 
 N1 = NedeterminističkiKonačniAutomat.iz_konačnog_automata(M1)
-print(M1)
-print("PRIRODNI")
-print(KonačniAutomat.prirodni(M1))
-print(N1)
+
 N2 = NedeterminističkiKonačniAutomat.iz_konačnog_automata(M2)
 
 N12konkatenacija = N1.konkatenacija(N2)
