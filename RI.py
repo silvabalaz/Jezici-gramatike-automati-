@@ -158,13 +158,17 @@ class Elementaran(Inicijalan):
 
 
 prazan = Prazan()
+print(prazan)
 epsilon = Epsilon()
+print(epsilon)
+inicijalan = Inicijalan().konačan()
+print(inicijalan)
 a = Elementaran('a')
 b = Elementaran('b')
 c = Elementaran('c')
 nula = Elementaran('0')
 jedan = Elementaran('1')
-
+print("Elementaran.NKA:", Elementaran('0').NKA())
 
 class Binaran(RegularanIzraz, abc.ABC):
     """Zajednička natklasa za binarne operacije: uniju i konkatenaciju."""
@@ -178,7 +182,11 @@ class Binaran(RegularanIzraz, abc.ABC):
 
     def trivijalan(ri):
         return ri.lijevo.trivijalan() and ri.desno.trivijalan() or ri.prazan()
-    
+
+binaran = Binaran(Elementaran('a'), Elementaran('b')) 
+b = Binaran(a,b)
+print("b", b)
+print("binaran: ", binaran)
 
 class Unija(Binaran):
     """L ∪ M = {w : w ∈ L ∨ w ∈ M}"""
@@ -211,7 +219,8 @@ class Unija(Binaran):
             for lijevo, desno in zip(self.lijevo, self.desno):
                 yield lijevo
                 yield desno
-
+Unija = Unija(binaran, binaran)
+print("Unija",Unija)
 
 class Konkatenacija(Binaran):
     """LM = {uv : u ∈ L ∧ v ∈ M}"""
@@ -252,7 +261,8 @@ class Konkatenacija(Binaran):
                 dosad.append(lijevo)
                 for lijevo, desno in zip(reversed(dosad), self.desno):
                     yield lijevo + desno
-
+konkatenacija = Konkatenacija(binaran,binaran)
+print("konkatenacija: ", konkatenacija)
 
 class Zvijezda(RegularanIzraz):
     """L* := ε ∪ L ∪ LL ∪ LLL ∪ ...."""
@@ -284,11 +294,16 @@ class Zvijezda(RegularanIzraz):
     def enumerator(self):
         yield from Unija(epsilon, Plus(self.ispod))
 
+zvijezda = Zvijezda(Elementaran('a'))
+print("zvijezda", zvijezda)
 
 def Plus(ri):
     """L+ := L ∪ LL ∪ LLL ∪ ...."""
     return Konkatenacija(Zvijezda(ri), ri)
-
+plus = Plus(Elementaran('a'))
+print("plus ", plus) 
 def Upitnik(ri):
     """L? := ε ∪ L"""
     return Unija(epsilon, ri)
+
+
