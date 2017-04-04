@@ -48,4 +48,5 @@ Metoda *partition(lst)*  prima riječ te ju rastavlja na tri podriječi x,y,z.
 Metoda *konkatenacija_riječi(y,i)* prima podriječ početne riječi (y-dio) te ga konkatenira na samog sebe i -puta (napuhavanje riječi)
 
 Metoda *.append()* ponovo spaja podriječi (početnu riječ rastavljenu na particije sa napuhanim y dijelom) natrag u riječ x(y^i)z
+
 Na kraju pozivamo .metodu prihvaća(napuhanaRiječ) na automatu koji smo primili kao parametar na početku kako bi vidjeli je li napuhana riječ u jeziku koji taj automat prepoznaje, tj. vidjeli ima li taj jezik svojstvo koje imaju svi jezici koji su regularni (lema o napuhavanju za regularne jezike)
