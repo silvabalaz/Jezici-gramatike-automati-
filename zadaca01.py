@@ -117,4 +117,4 @@ E =  NedeterminističkiKonačniAutomat.iz_komponenti({'q1','q2','q3','q4'},
 #NedeterminističkiKonačniAutomat.beskonačna_petlja(D)
 print("BESKONAČNA PETLJA")
 print(NedeterminističkiKonačniAutomat.beskonačna_petlja(E))
-print(NedeterminističkiKonačniAutomat.lema_o_napuhavanju(E))
+
