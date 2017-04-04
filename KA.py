@@ -1,6 +1,7 @@
 from util import *
 import random, string
 from random import randint	
+import time
 
 class KonačniAutomat(types.SimpleNamespace):
     """Automat koji prepoznaje regularni jezik."""
@@ -258,36 +259,8 @@ class NedeterminističkiKonačniAutomat(types.SimpleNamespace):
 		FN = {rječnik[završno] for završno in F}
 		return NedeterminističkiKonačniAutomat.iz_komponenti(QN, Σ, δN, q0N, FN)
 	
-	def beskonačna_petlja(automat):
-		"""beskonačna_petlja ako je unos neka riječ abecede automata"""
-		Q, Σ, δ, q0, F = automat.komponente	
-
-		duljinaRiječi = len(list(Σ))*10
-
-		def random_string(duljina):
-		   return ''.join(random.choice(list(Σ)) for i in range(duljina))
-		
-		ulaz = random_string(randint(1,duljinaRiječi))
-		#ulaz = '11111111111111111111111111111111111111'
-		
-		def prihvaća(ulaz):
-			"""Prihvaća li automat zadani ulaz?"""
-
-			δ = automat.funkcija_prijelaza
-			moguća = ε_ljuska(δ, {automat.početno})	
-			counter = 0
-
-			while True:
-				for znak in ulaz: 
-					moguća = set(ε_ljuska(δ, dohvatljiva(δ, moguća, znak)))
-					counter +=1
-					if(len(moguća) == 0):return None
-					if(counter >= 10):return ulaz #moguća beskonačna petlja
-				return None
-			
-		return prihvaća(ulaz)
-
-	def ε_ciklus(automat,r1):
+	
+	def ciklus(automat,r1):
 		"""ε_ciklus"""
 		Q, Σ, δ, q0, F = automat.komponente
 
@@ -341,5 +314,152 @@ class NedeterminističkiKonačniAutomat(types.SimpleNamespace):
 
 		return postoji_ciklus(rječnikPrirodniPrijelazi, stanje)
 
-		
+	def lema_o_napuhavanju(automat):
+			
+		p = input("Unesi broj p: ")
+		print("Unešen broj je:", p)	
+		riječ = input("Unesi riječ: ")
+		print("Unesena riječ je:", riječ)	
+
+		def partition(lst):
+			division = len(lst)/3
+			return [lst[round(division * i):round(division * (i + 1))] for i in range(3)]
+		x,y,z = partition(riječ)
+
+		def konkatenacija_riječi(riječ, koliko):
+			lista=[]			
+			lista.extend([riječ for i in range(int(koliko))])
+			riječNova =''.join(lista)
+			return riječNova 
 	
+		i = input("Unesi broj i: ")
+		print("Unešen broj je:", i)	
+	
+		yi = konkatenacija_riječi(y,i)
+		print("y^i", yi)
+		riječ= []
+		riječ.append(x)
+		riječ.append(yi)
+		riječ.append(z)
+		print("riječ", riječ)
+		napuhanaRiječ = ''.join(riječ)
+		print("napuhanaRiječ", napuhanaRiječ)
+		
+			
+		return automat.prihvaća(napuhanaRiječ)
+
+	def beskonačna_petlja(automat):
+		"""beskonačna_petlja ako je unos neka riječ abecede automata"""
+		Q, Σ, δ, q0, F = automat.komponente	
+		
+		duljinaRiječi = len(list(Σ))*10
+
+		def random_string(duljina):
+		   return ''.join(random.choice(list(Σ)) for i in range(duljina))
+		
+		ulaz = random_string(randint(1,duljinaRiječi))
+		'''
+		def prihvaća(ulaz):
+			"""Prihvaća li automat zadani ulaz?"""
+			print("automat: ", automat)
+			δ = automat.funkcija_prijelaza
+			print("--------------------------------------------------------")
+			moguća = ε_ljuska(δ, {automat.početno})	
+			print("moguća: ", moguća)
+		
+			def ciklus_tražim(automat,r1):
+				"""ε_ciklus"""
+				Q, Σ, δ, q0, F = automat.komponente
+
+				rječnikPrirodni = {q:i for i, q in enumerate(Q, 1)}
+				početakCiklusa = rječnikPrirodni[r1]
+				print("p",početakCiklusa)
+				QN = set(rječnikPrirodni.values())
+				δN = {(rječnikPrirodni[polazno],znak,rječnikPrirodni[dolazno])
+					for (polazno, znak, dolazno) in list(δ)}
+				
+				rječnikPrirodniPrijelazi = dict()
+
+				for (polazno, znak, dolazno) in list(δN):
+					#if(znak == ε):
+					if polazno in rječnikPrirodniPrijelazi: 
+						rječnikPrirodniPrijelazi[polazno].append(dolazno)
+					else: 
+						rječnikPrirodniPrijelazi[polazno] = [dolazno]
+				#tražiStanjeIzKOjegSeMožeUćiUECiklus,vratiGaKaoPOčetakCiklusa
+				print(rječnikPrirodni)
+				print(rječnikPrirodniPrijelazi)
+				def postoji_ciklus(rječnikPrirodniPrijelazi, stanje): 
+						
+					boja = { stanje : "bijela" for stanje in rječnikPrirodniPrijelazi }  
+					nasaoCiklus = 0           		                            
+					print("postoji_ciklus", stanje)
+					print("bijela", boja[stanje], stanje)
+					if boja[stanje] == "bijela": 
+						dfs_posjeti(rječnikPrirodniPrijelazi, stanje, boja, nasaoCiklus)
+					if not nasaoCiklus == 0:
+						return nasaoCiklus
+
+				def dfs_posjeti(rječnikPrirodniPrijelazi, stanje, boja, nasaoCiklus):
+
+					početni = stanje	
+					print("dfs_posjeti")
+					print("nasaoCiklus", nasaoCiklus)
+					if not nasaoCiklus == 0:
+						return
+					boja[stanje] = "siva"
+					print("boja[stanje]",boja[stanje], stanje)
+					for prijelaz in rječnikPrirodniPrijelazi[stanje]:	
+						print("prijelaz in rječnikPrirodniPrijelazi[stanje]",prijelaz, rječnikPrirodniPrijelazi[stanje])
+						time.sleep(2)
+						print("boja[priojelaz]", boja[prijelaz])
+						if boja[prijelaz] == "siva":
+							print("SIVVVA")
+							if(prijelaz == početni and len(rječnikPrirodniPrijelazi[stanje]) > 1): 						
+								rječnikPrirodniPrijelazi[stanje].remove(prijelaz)
+								boja[stanje] = "bijela"
+								print("prviIF")
+							else:
+								nasaoCiklus = stanje
+								print("else:NASAOCIKLUS",nasaoCiklus)
+								return 
+
+						if boja[prijelaz] == "bijela":
+							dfs_posjeti(rječnikPrirodniPrijelazi, prijelaz, boja, nasaoCiklus)
+
+					boja[stanje] = "crna"
+					print("boja[stanje]=crna", boja[stanje])
+					#return postoji_ciklus(rječnikPrirodniPrijelazi, stanje)
+					print("stanje prije povratka", stanje)
+					return stanje
+				for znak, broj in rječnikPrirodni.items():
+					print("stanje u foru,znak,broj", znak,broj)
+					#početakCiklusa = postoji_ciklus(rječnikPrirodniPrijelazi,broj)
+					print("broj,PočetakCiklusa", broj,početakCiklusa)
+					if broj == početakCiklusa:
+						return znak
+				return None
+			
+
+			#početakPetlje = ciklus_tražim(automat,automat.početno)
+			#print("početakPetlje", početakPetlje)
+		
+			while True:
+				for znak in ulaz:
+					print("ulaz", ulaz)
+					print("znak", znak)
+					print("dohvatljiva, ",dohvatljiva(δ, moguća, znak)) 
+					moguća = set(ε_ljuska(δ, dohvatljiva(δ, moguća, znak)))
+					if(len(moguća) == 0):return None
+					print("moguća u true", moguća)
+					#if početakPetlje in moguća: #moguća beskonačna petlja
+						#return ulaz
+				return None
+
+
+
+			return ulaz
+		return prihvaća('0') #prihvaća(ulaz)'''
+		
+		
+

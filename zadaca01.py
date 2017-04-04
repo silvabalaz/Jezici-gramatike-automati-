@@ -102,8 +102,8 @@ N = NedeterminističkiKonačniAutomat.iz_komponenti({'q1', 'q2', 'q3', 'q4'},
 B = NedeterminističkiKonačniAutomat.iz_komponenti({'q1', 'q2', 'q3'},{'0', '1'}, {('q1', ε, 'q1'), ('q2', '0', 'q3'), ('q2', '1', 'q3') }, 'q1', {'q1'})
 
 
-NedeterminističkiKonačniAutomat.ε_ciklus(N,'q3')
-NedeterminističkiKonačniAutomat.ε_ciklus(B,'q1')
+NedeterminističkiKonačniAutomat.ciklus(N,'q3')
+NedeterminističkiKonačniAutomat.ciklus(B,'q1')
 
 #[3] Implementirajte funkciju beskonačna_petlja, koja prima nedeterministički konačni automat i vraća (neku) riječ njegove abecede takvu da se automat može zavrtjeti u beskonačnoj petlji čitajući tu riječ. Ako takva riječ ne postoji, funkcija vraća None.
 
@@ -111,7 +111,10 @@ C = NedeterminističkiKonačniAutomat.iz_komponenti({'q1','q2'},
         {'0', '1'}, {('q1', ε, 'q1'), ('q1', '0', 'q1' ),('q1', '1', 'q1' )}, 'q1', {'q2'})
 D =  NedeterminističkiKonačniAutomat.iz_komponenti({'q1','q2'},
         {'0', '1'}, {('q1', ε, 'q2'), ('q1', '0', 'q2' ),('q1', '1', 'q2' )}, 'q1', {'q2'})
-
-NedeterminističkiKonačniAutomat.beskonačna_petlja(C)
-NedeterminističkiKonačniAutomat.beskonačna_petlja(D)
-
+E =  NedeterminističkiKonačniAutomat.iz_komponenti({'q1','q2','q3','q4'},
+        {'0', '1'}, {('q1','0','q2'), ('q1','0','q3'),('q2',ε,'q4'), ('q4',ε,'q2')}, 'q1', {'q3'})
+#NedeterminističkiKonačniAutomat.beskonačna_petlja(C)
+#NedeterminističkiKonačniAutomat.beskonačna_petlja(D)
+print("BESKONAČNA PETLJA")
+print(NedeterminističkiKonačniAutomat.beskonačna_petlja(E))
+print(NedeterminističkiKonačniAutomat.lema_o_napuhavanju(E))
