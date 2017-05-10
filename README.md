@@ -36,3 +36,17 @@ Metoda *random_string(duljina)* nasumično generira riječ duljine koju prima ka
 
 Metoda *prihvaća(ulaz)* vraća riječ koja je u *ulaz* ako smo u beskonačnoj petlji (varijablom counter označim koja je granica za beskonačnost, npr. 10). 
 Ako pročitamo riječ u manji broj koraka i imamo *moguća* stanja prijelaza za svaki znak riječi, to znači da smo na kraju riječi ili u stanju prihvaćanja ili odbijanja, te funkcija vraća None. 
+
+**zadaca02.py**
+
+### 1.Implementacija sučelja prema lemi o napuhavanju za regularne jezike: funkcija koja prima KonačniAutomat (ili NedeterminističkiKonačniAutomat) , te pita korisnika za riječ duljine bar p (kaže mu koliko je p). Nakon što korisnik upiše riječ, funkcija je rastavlja na riječi x, y i z iz leme o napuhavanju (ako postoje), te pita korisnika za broj i i ispisuje varijantu x y^i z. Za interakciju se koristi funkcija input. 
+
+Metoda *lema_o_napuhavanju(automat)* prima nedeterministički konačni automat.
+
+Metoda *partition(lst)*  prima riječ te ju rastavlja na tri podriječi x,y,z.
+
+Metoda *konkatenacija_riječi(y,i)* prima podriječ početne riječi (y-dio) te ga konkatenira na samog sebe i -puta (napuhavanje riječi)
+
+Metoda *.append()* ponovo spaja podriječi (početnu riječ rastavljenu na particije sa napuhanim y dijelom) natrag u riječ x(y^i)z
+
+Na kraju pozivamo metodu *prihvaća(napuhanaRiječ)* na automatu koji smo primili kao parametar na početku kako bi vidjeli je li napuhana riječ u jeziku koji taj automat prepoznaje, tj. vidjeli ima li taj jezik svojstvo koje imaju svi jezici koji su regularni (lema o napuhavanju za regularne jezike)
