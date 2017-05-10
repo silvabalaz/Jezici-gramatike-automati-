@@ -1,9 +1,11 @@
 from KA import *
-
+from BKG import *
+from PA import *
+from RI import *
 
 
 tests = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20}
-tests |= {21, 22, 23, 24, 25, 26, 27, 28, 29}
+tests |= {21, 22, 23, 24, 25, 26, 27, 28, 29,44}
 
 
 if 1 in tests:  # page 34 figure 1.4  # page 36 figure 1.6
@@ -92,3 +94,23 @@ if 6 in tests:  # page 40 example 1.15
         provjeri(Bi, Ai)
         print(i, end=' OK  ')
 
+print("_________________________________________________")
+
+if 44 in tests:  # page 105 example 2.4
+    G4 = BeskontekstnaGramatika.iz_strelica('''
+        E -> E + T | T
+        T -> T * F | F
+        F -> ( E ) | a
+    ''')
+    print("desnolinearna",BeskontekstnaGramatika.desnolinearna(G4))
+    print("validan",BeskontekstnaGramatika.validan(G4, 'a+a*a'))
+    print("Chomsky",BeskontekstnaGramatika.Chomskyjeva(G4))
+    #print("simboli",BeskontekstnaGramatika.simboli(G4))
+    print("G4", G4)
+    print("komponente",BeskontekstnaGramatika.komponente(G4))
+    print(G4.CYK('a+a*a'), G4.CYK('(a+a)*a'))
+    #print(assert G4.validan('E E+T T+T F+T a+T a+T*F a+F*F a+a*F a+a*a'.split()))
+    #print(assert G4.validan('''E T T*F T*a F*a (E)*a (E+T)*a(T+T)*a (T+F)*a (F+F)*a (a+F)*a (a+a)*a'''.split()))
+    print("_________________________________________________")
+
+    print(G4.CYK('a+a'),G4.CYK('((a))'))
