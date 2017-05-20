@@ -4,94 +4,160 @@ from random import randint
 import time
 
 class KonačniAutomat(types.SimpleNamespace):
-    """Automat koji prepoznaje regularni jezik."""
+	"""Automat koji prepoznaje regularni jezik."""
 
-    @classmethod
-    def iz_komponenti(klasa, stanja, abeceda, prijelaz, početno, završna):
-        """Sipser page 35 definition 1.5 - konstrukcija iz petorke."""
-        assert abeceda  # nije prazna
-        assert početno in stanja
-        assert završna <= stanja
-        assert funkcija(prijelaz, Kartezijev_produkt(stanja, abeceda), stanja)
-        return klasa(**vars())
+	@classmethod
+	def iz_komponenti(klasa, stanja, abeceda, prijelaz, početno, završna):
+		"""Sipser page 35 definition 1.5 - konstrukcija iz petorke."""
+		assert abeceda  # nije prazna
+		assert početno in stanja
+		assert završna <= stanja
+		assert funkcija(prijelaz, Kartezijev_produkt(stanja, abeceda), stanja)
+		return klasa(**vars())
 
-    @classmethod
-    def iz_tablice(klasa, tablica):
-        """Parsiranje tabličnog zapisa konačnog automata (Sipser page 36).
-        Pogledati funkciju util.parsiraj_tablicu_KA za detalje."""
-        return klasa.iz_komponenti(*parsiraj_tablicu_KA(tablica))
+	@classmethod
+	def iz_tablice(klasa, tablica):
+		"""Parsiranje tabličnog zapisa konačnog automata (Sipser page 36).
+		Pogledati funkciju util.parsiraj_tablicu_KA za detalje."""
+		return klasa.iz_komponenti(*parsiraj_tablicu_KA(tablica))
 
-    @property
-    def komponente(M):
-        """Sipser page 35 definition 1.5 - rastav u petorku."""
-        return M.stanja, M.abeceda, M.prijelaz, M.početno, M.završna
+	@property
+	def komponente(M):
+		"""Sipser page 35 definition 1.5 - rastav u petorku."""
+		return M.stanja, M.abeceda, M.prijelaz, M.početno, M.završna
 
-    def prihvaća(automat, ulaz):
-        """Prihvaća li konačni automat zadani ulaz?"""
-        stanje = automat.početno
-        for znak in ulaz:
-            stanje = automat.prijelaz[stanje, znak]
-        return stanje in automat.završna
+	def prihvaća(automat, ulaz):
+		"""Prihvaća li konačni automat zadani ulaz?"""
+		stanje = automat.početno
+		for znak in ulaz:
+		    stanje = automat.prijelaz[stanje, znak]
+		return stanje in automat.završna
 
-    def izračunavanje(automat, ulaz):
-        """Stanja kroz koja automat prolazi čitajući ulaz (Sipser page 40)."""
-        stanje = automat.početno
-        yield stanje
-        for znak in ulaz:
-            stanje = automat.prijelaz[stanje, znak]
-            yield stanje
+	def izračunavanje(automat, ulaz):
+		"""Stanja kroz koja automat prolazi čitajući ulaz (Sipser page 40)."""
+		stanje = automat.početno
+		yield stanje
+		print("poč.stanje u fji izr",stanje)
+		for znak in ulaz:
+		    stanje = automat.prijelaz[stanje, znak]
+		    print("stanje u fji,znak",stanje,znak)
+		    yield stanje
 
-    def prirodni(automat):
-        """Zamjenjuje stanja prirodnim brojevima, radi preglednosti."""
-        Q, Σ, δ, q0, F = automat.komponente
-        rječnik = {q:i for i, q in enumerate(Q, 1)}
-        QN = set(rječnik.values())
-        δN = {(rječnik[polazno], znak): rječnik[dolazno]
-            for (polazno, znak), dolazno in δ.items()}
-        q0N = rječnik[q0]
-        FN = {rječnik[završno] for završno in F}
-        return KonačniAutomat.iz_komponenti(QN, Σ, δN, q0N, FN)
+	def prirodni(automat):
+		"""Zamjenjuje stanja prirodnim brojevima, radi preglednosti."""
+		Q, Σ, δ, q0, F = automat.komponente
+		rječnik = {q:i for i, q in enumerate(Q, 1)}
+		QN = set(rječnik.values())
+		δN = {(rječnik[polazno], znak): rječnik[dolazno]
+		    for (polazno, znak), dolazno in δ.items()}
+		q0N = rječnik[q0]
+		FN = {rječnik[završno] for završno in F}
+		return KonačniAutomat.iz_komponenti(QN, Σ, δN, q0N, FN)
 
-    def crtaj(automat):
-        """Ispisuje na ekran dijagram automata u DOT formatu.
-        Dobiveni string može se kopirati u sandbox.kidstrythisathome.com/erdos
-        ili u www.webgraphviz.com."""
-        NedeterminističkiKonačniAutomat.iz_konačnog_automata(automat).crtaj()
+	def crtaj(automat):
+		"""Ispisuje na ekran dijagram automata u DOT formatu.
+		Dobiveni string može se kopirati u sandbox.kidstrythisathome.com/erdos
+		ili u www.webgraphviz.com."""
+		NedeterminističkiKonačniAutomat.iz_konačnog_automata(automat).crtaj()
 
-    def unija(M1, M2):
-        """Konačni automat za L(M1)∪L(M2)."""
-        assert M1.abeceda == M2.abeceda
-        Q1, Σ, δ1, q1, F1 = M1.komponente
-        Q2, Σ, δ2, q2, F2 = M2.komponente
-        Q = Kartezijev_produkt(Q1, Q2)
-        δ = {((r1,r2), α): (δ1[r1,α], δ2[r2,α]) for r1,r2 in Q for α in Σ}
-        F = Kartezijev_produkt(Q1, F2) | Kartezijev_produkt(F1, Q2)
-        return KonačniAutomat.iz_komponenti(Q, Σ, δ, (q1,q2), F)
+	def unija(M1, M2):
+		"""Konačni automat za L(M1)∪L(M2)."""
+		assert M1.abeceda == M2.abeceda
+		Q1, Σ, δ1, q1, F1 = M1.komponente
+		Q2, Σ, δ2, q2, F2 = M2.komponente
+		Q = Kartezijev_produkt(Q1, Q2)
+		δ = {((r1,r2), α): (δ1[r1,α], δ2[r2,α]) for r1,r2 in Q for α in Σ}
+		F = Kartezijev_produkt(Q1, F2) | Kartezijev_produkt(F1, Q2)
+		return KonačniAutomat.iz_komponenti(Q, Σ, δ, (q1,q2), F)
 
-    def presjek(M1, M2):
-        """Konačni automat za L(M1)∩L(M2)."""
-        M = M1.unija(M2)
-        M.završna = Kartezijev_produkt(M1.završna, M2.završna)
-        return M
+	def presjek(M1, M2):
+		"""Konačni automat za L(M1)∩L(M2)."""
+		M = M1.unija(M2)
+		M.završna = Kartezijev_produkt(M1.završna, M2.završna)
+		return M
 
-    def komplement(M):
-        """Konačni automat za (M.abeceda)*\L(M)."""
-        Q, Σ, δ, q0, F = M.komponente
-        return KonačniAutomat.iz_komponenti(Q, Σ, δ, q0, Q - F)
+	def komplement(M):
+		"""Konačni automat za (M.abeceda)*\L(M)."""
+		Q, Σ, δ, q0, F = M.komponente
+		return KonačniAutomat.iz_komponenti(Q, Σ, δ, q0, Q - F)
 
-    def razlika(M1, M2):
-        """Konačni automat za L(M1)\L(M2)."""
-        return M1.presjek(M2.komplement())
+	def razlika(M1, M2):
+		"""Konačni automat za L(M1)\L(M2)."""
+		return M1.presjek(M2.komplement())
 
-    def simetrična_razlika(M1, M2):
-        """Konačni automat za L(M1)△L(M2)."""
-        return M1.razlika(M2).unija(M2.razlika(M1))
+	def simetrična_razlika(M1, M2):
+		"""Konačni automat za L(M1)△L(M2)."""
+		return M1.razlika(M2).unija(M2.razlika(M1))
 
-    def optimizirana_simetrična_razlika(M1, M2):
-        """Konačni automat za L(M1)△L(M2), s |M1.stanja|·|M2.stanja| stanja."""
-        M = M1.razlika(M2)
-        M.završna |= Kartezijev_produkt(M1.stanja - M1.završna, M2.završna)
-        return M
+	def optimizirana_simetrična_razlika(M1, M2):
+		"""Konačni automat za L(M1)△L(M2), s |M1.stanja|·|M2.stanja| stanja."""
+		M = M1.razlika(M2)
+		M.završna |= Kartezijev_produkt(M1.stanja - M1.završna, M2.završna)
+		return M
+
+	def lema_o_napuhavanju(automat):
+		
+		p = input("Unesi broj p: ")
+		print("Unešen broj je:", p)	
+		riječ = input("Unesi riječ: ")
+		print("Unesena riječ je:", riječ)	
+		
+		def partition(lst,duljina,znakPonavljanja):
+			x = lst[:duljina]
+			yz = lst[duljina:]
+			y = yz[:znakPonavljanja]
+			z = yz[znakPonavljanja:]
+
+			return x,y,z
+
+		def konkatenacija_riječi(riječ,koliko):
+			lista=[]			
+			lista.extend([riječ for i in range(int(koliko))])
+			riječNova =''.join(lista)
+			return riječNova 			
+		
+		brojPonavljanjaStanja = {'q1':0, 'q2':0, 'q3':0}
+		a = KonačniAutomat.izračunavanje(automat,riječ) 
+		j = 0
+		for i in a:
+			break
+		stanjePonavljanja = ''
+		for i in a:
+			j = j + 1
+			brojPonavljanjaStanja[i] +=1 
+			if brojPonavljanjaStanja[i] == 2 and j<= int(p):
+				stanjePonavljanja = i
+				mjestoNapuhavanja = j-1
+				break
+
+		kolikoPuta = 0
+		count = 0
+		b = KonačniAutomat.izračunavanje(automat,riječ) 
+		for k in b:
+			if k == stanjePonavljanja:
+				kolikoPuta += 1
+				count = 1
+			if k != stanjePonavljanja and count == 1:
+			    	break
+
+		x,y,z = partition(riječ,mjestoNapuhavanja,kolikoPuta-1)
+		print("x,y,z=",x,y,z)
+		
+		i = input("Unesi broj i: ")
+		print("Unešen broj je:", i)	
+
+		yi = konkatenacija_riječi(y,i)
+		print("y^i", yi)
+		riječ= []
+		riječ.append(x)
+		riječ.append(yi)
+		riječ.append(z)
+		print("riječ", riječ)
+		napuhanaRiječ = ''.join(riječ)
+		print("napuhanaRiječ", napuhanaRiječ)	
+		
+		return automat.prihvaća(napuhanaRiječ)
+		
 
 def dohvatljiva(δ, S, α):
     """Stanja do kojih je moguće doći iz stanja iz S čitanjem znaka α."""
@@ -314,39 +380,6 @@ class NedeterminističkiKonačniAutomat(types.SimpleNamespace):
 
 		return postoji_ciklus(rječnikPrirodniPrijelazi, stanje)
 
-	def lema_o_napuhavanju(automat):
-			
-		p = input("Unesi broj p: ")
-		print("Unešen broj je:", p)	
-		riječ = input("Unesi riječ: ")
-		print("Unesena riječ je:", riječ)	
-
-		def partition(lst):
-			division = len(lst)/3
-			return [lst[round(division * i):round(division * (i + 1))] for i in range(3)]
-		x,y,z = partition(riječ)
-
-		def konkatenacija_riječi(riječ, koliko):
-			lista=[]			
-			lista.extend([riječ for i in range(int(koliko))])
-			riječNova =''.join(lista)
-			return riječNova 
-	
-		i = input("Unesi broj i: ")
-		print("Unešen broj je:", i)	
-	
-		yi = konkatenacija_riječi(y,i)
-		print("y^i", yi)
-		riječ= []
-		riječ.append(x)
-		riječ.append(yi)
-		riječ.append(z)
-		print("riječ", riječ)
-		napuhanaRiječ = ''.join(riječ)
-		print("napuhanaRiječ", napuhanaRiječ)
-		
-			
-		return automat.prihvaća(napuhanaRiječ)
 
 	def beskonačna_petlja(automat):
 		"""beskonačna_petlja ako je unos neka riječ abecede automata"""
@@ -460,6 +493,5 @@ class NedeterminističkiKonačniAutomat(types.SimpleNamespace):
 
 			return ulaz
 		return prihvaća('0') #prihvaća(ulaz)'''
-		
-		
+
 

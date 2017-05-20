@@ -14,8 +14,25 @@ E = NedeterminističkiKonačniAutomat.iz_komponenti({'q1', 'q2', 'q3', 'q4'},
                      ('q2', '0', 'q3'), ('q2', '1', 'q3'), ('q3', ε, 'q4'),
                      ('q4', ε, 'q1'), ('q1',ε,'q1')}, 'q1', {'q1'})
 
-print(NedeterminističkiKonačniAutomat.lema_o_napuhavanju(E))
+F = KonačniAutomat.iz_tablice('''
+           0  1
+        q1 q1 q2
+        q2 q3 q2 #
+        q3 q2 q2   ''')
+#print(KonačniAutomat.lema_o_napuhavanju(F))
 
-print(NedeterminističkiKonačniAutomat.lema_o_napuhavanju(C))
+G = KonačniAutomat.iz_tablice('''
+           0  1
+        q1 q2 q1
+        q2 q3 q2 
+        q3 q3 q3 #   ''')
+print(KonačniAutomat.lema_o_napuhavanju(G))
 
-print(NedeterminističkiKonačniAutomat.lema_o_napuhavanju(D))
+E = KonačniAutomat.iz_tablice('''
+           a  b  c  d
+        q1 q2 q1 q1 q1
+        q2 q2 q2 q3 q2 
+        q3 q3 q3 q3 q3  #   ''')
+
+#print(KonačniAutomat.lema_o_napuhavanju(E))
+
