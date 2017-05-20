@@ -114,9 +114,18 @@ class KonačniAutomat(types.SimpleNamespace):
 			lista=[]			
 			lista.extend([riječ for i in range(int(koliko))])
 			riječNova =''.join(lista)
-			return riječNova 			
+			return riječNova 	
+		lista = list(automat.stanja)
+		duljinaListe = len(automat.stanja)
+		def generirajRječnik(lista,duljinaListe):
+			rječnik = dict()
+			for i in lista:
+				rječnik[i] = 0
+
+			return rječnik
+
+		brojPonavljanjaStanja =  generirajRječnik(lista,duljinaListe)
 		
-		brojPonavljanjaStanja = {'q1':0, 'q2':0, 'q3':0}
 		a = KonačniAutomat.izračunavanje(automat,riječ) 
 		j = 0
 		for i in a:
@@ -155,7 +164,7 @@ class KonačniAutomat(types.SimpleNamespace):
 		print("riječ", riječ)
 		napuhanaRiječ = ''.join(riječ)
 		print("napuhanaRiječ", napuhanaRiječ)	
-		
+
 		return automat.prihvaća(napuhanaRiječ)
 		
 
