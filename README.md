@@ -39,7 +39,7 @@ Ako pročitamo riječ u manji broj koraka i imamo *moguća* stanja prijelaza za 
 
 **zadaca02.py**
 
-### 1.Implementacija sučelja prema lemi o napuhavanju za regularne jezike: funkcija koja prima KonačniAutomat (ili NedeterminističkiKonačniAutomat) , te pita korisnika za riječ duljine bar p (kaže mu koliko je p). Nakon što korisnik upiše riječ, funkcija je rastavlja na riječi x, y i z iz leme o napuhavanju (ako postoje), te pita korisnika za broj i i ispisuje varijantu x y^i z. Za interakciju se koristi funkcija input. 
+### 1.Implementacija sučelja prema lemi o napuhavanju za regularne jezike: funkcija koja prima KonačniAutomat , te pita korisnika za riječ duljine bar p (kaže mu koliko je p). Nakon što korisnik upiše riječ, funkcija je rastavlja na riječi x, y i z iz leme o napuhavanju (ako postoje), te pita korisnika za broj i i ispisuje varijantu x y^i z. Za interakciju se koristi funkcija input. 
 
 Metoda *lema_o_napuhavanju(automat)* prima nedeterministički konačni automat.
 
