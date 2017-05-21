@@ -46,7 +46,7 @@ Metoda *lema_o_napuhavanju(automat)* prima nedeterministički konačni automat.
 Metoda *partition(lst,duljina,znakPonavljanja)*  prima riječ te ju rastavlja na tri podriječi x,y,z na mjestima koja su dana argumentima funkcije:
 riječ-riječ koja se rastavlja, duljina- broj znakova do prvog ulaska u stanje koje se od svih stanja prvo ponavlja bar dva puta za redom, znakPonavljanja- točan broj puta ponavljanja tog stanja (više ili jednako od 2) prije nego je otišlo u sljedeće stanje
 
-u tijelu funkcije *lema_o_napuhavanju* stvaramo rječnik metodom *generirajRječnik* koja iz liste (dobivene pretvaranjem skupa stanja od danog automata u listu) generira novi rječnik čiji *keys* su elementi liste,odnosno stanja automata, a pripadne vrijednosti *values* inicijalno us postavljene na nulu.
+U tijelu funkcije *lema_o_napuhavanju* stvaramo rječnik metodom *generirajRječnik* koja iz liste (dobivene pretvaranjem skupa stanja od danog automata u listu) generira novi rječnik čiji *keys* su elementi liste,odnosno stanja automata, a pripadne vrijednosti *values* inicijalno su postavljene na nulu.
 
 Dalje,pozivanjem metode *izračunavanje* dobivamo stanja kroz koja automat izračunavanjem prolazi, na znakove dane riječi, unešene input() metodom.Zapisujemo koliko se koje stanje puta ponovilo u generirani rječnik. Kada prvi puta naiđemo na stanje koje se dva puta ponavlja, zapišemo koje je to stanje i nakon koliko znakova se ponovilo bar dva puta. Ponovo pozivamo izračunavanje da izračuna koliko se ukupno puta to stanje ponovilo prije nego što je prešlo u sljedeće stanje (prekinuli smo prvi puta). Te vrijednosti pošaljemo pozivom metode *partition*. 
 
