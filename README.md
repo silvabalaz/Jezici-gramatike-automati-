@@ -58,5 +58,6 @@ Na kraju pozivamo metodu *prihvaća(napuhanaRiječ)* na automatu koji smo primil
 
 **seminar: Implementacija Mooreovog algoritma za minimizaciju konačnog automata**
 
-U datoteci minDKA.py nalazi se implementacija Mooreovog algoritma, kvadratne složenosti.
-U dokumentu MinimizacijaDKA.pdf je opisana implementacija algoritma.
+U datoteci *minDKA.py* nalazi se implementacija Mooreovog algoritma, kvadratne složenosti.
+
+U dokumentu *MinimizacijaDKA.pdf* je opisana implementacija algoritma.
