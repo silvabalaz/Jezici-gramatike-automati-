@@ -55,3 +55,8 @@ Metoda *konkatenacija_riječi(y,i)* prima podriječ početne riječi (y-dio) te 
 Metoda *.append()* ponovo spaja podriječi (početnu riječ rastavljenu na particije sa napuhanim y dijelom) natrag u riječ x(y^i)z
 
 Na kraju pozivamo metodu *prihvaća(napuhanaRiječ)* na automatu koji smo primili kao parametar na početku kako bi vidjeli je li napuhana riječ u jeziku koji taj automat prepoznaje, tj. vidjeli ima li taj jezik svojstvo koje imaju svi jezici koji su regularni (lema o napuhavanju za regularne jezike)
+
+**seminar: Implementacija Mooreovog algoritma za minimizaciju konačnog automata**
+
+U datoteci minDKA.py nalazi se implementacija Mooreovog algoritma, kvadratne složenosti.
+U dokumentu MinimizacijaDKA.pdf je opisana implementacija algoritma.
